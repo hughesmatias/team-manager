@@ -4,11 +4,11 @@ import Player from './components/Player';
 
 export default function App() {
   const options = [
-    442,
-    343,
-    532,
-    433,
-    352
+    [1, 4, 4, 2],
+    [1, 3, 4, 3],
+    [1, 5, 3, 2],
+    [1, 4, 3, 3],
+    [1, 3, 5, 2]
   ];
 
   const [ optionSelected, setOption ] = useState(options[0]);
@@ -119,12 +119,25 @@ export default function App() {
   ]
   };
 
-  const startTeam1 = {
-    gk: [1],
-    defender: [3, 2, 4, 19],
-    md: [33, 5, 10, 16],
-    forward: [11, 21]
-  };
+  const startTeam1 = [1, 3, 2, 4, 19, 33, 5, 10, 16, 11, 21]
+  // {
+  //   gk: [1],
+  //   defender: [3, 2, 4, 19],
+  //   md: [33, 5, 10, 16],
+  //   forward: [11, 21]
+  // };
+
+  const getFormation = (indice) => {
+    if (indice == 0) {
+      return startTeam1.splice(0, 1)
+    } else if (indice == 1) {
+      return startTeam1.splice(0, optionSelected[indice+1])
+    } else if (indice == 2) {
+      return startTeam1.splice(0, optionSelected[indice])
+    } else {
+      return startTeam1
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -133,16 +146,16 @@ export default function App() {
           <Text>Informacion seteada</Text>
         </View>
         <View style={styles.row}>
-          {startTeam1.gk.map((number, key) => <Player number={number} key={key} />)}
+          {getFormation(0).map((number, key) => <Player number={number} key={key} />)}
         </View>
         <View style={styles.row}>
-          {startTeam1.defender.map((number, key) => <Player number={number} key={key} />)}
+          {getFormation(1).map((number, key) => <Player number={number} key={key} />)}
         </View>
         <View style={styles.row}>
-          {startTeam1.md.map((number, key) => <Player number={number} key={key} />)}
+          {getFormation(2).map((number, key) => <Player number={number} key={key} />)}
         </View>
         <View style={styles.row}>
-          {startTeam1.forward.map((number, key) => <Player number={number} key={key} />)}
+          {getFormation(3).map((number, key) => <Player number={number} key={key} />)}
         </View>
         <View style={styles.information}>
           <Text>menu inferior</Text>
