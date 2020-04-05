@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Picker } from 'react-native';
 import Player from './components/Player';
 
 export default function App() {
@@ -11,7 +11,7 @@ export default function App() {
     [1, 3, 5, 2]
   ];
 
-  const [ optionSelected, setOption ] = useState(options[0]);
+  const [ optionSelected, setOption ] = useState(options[0].toString());
 
   const team1 = {
     gk: [
@@ -119,7 +119,15 @@ export default function App() {
   ]
   };
 
-  const startTeam1 = [1, 3, 2, 4, 19, 33, 5, 10, 16, 11, 21]
+  const startTeam1 = {
+    color: "blue",
+    players: [1, 3, 2, 4, 19, 33, 5, 10, 16, 11, 21]
+  };
+
+  const startTeam2 = {
+    color: "red",
+    players: [40, 3, 2, 4, 19, 33, 5, 10, 16, 11, 21]
+  };
   // {
   //   gk: [1],
   //   defender: [3, 2, 4, 19],
@@ -127,16 +135,49 @@ export default function App() {
   //   forward: [11, 21]
   // };
 
-  const getFormation = (indice) => {
+  const getFormation = (team, indice) => {
     if (indice == 0) {
-      return startTeam1.splice(0, 1)
+      return team.players.splice(0, 1)
     } else if (indice == 1) {
-      return startTeam1.splice(0, optionSelected[indice+1])
+      return team.players.splice(0, parseInt(optionSelected.split(",")[indice]))
     } else if (indice == 2) {
-      return startTeam1.splice(0, optionSelected[indice])
+      return team.players.splice(0, parseInt(optionSelected.split(",")[indice]))
     } else {
-      return startTeam1
+      return team.players;
     }
+  }
+
+  const isPlaing = player => 
+    startTeam1.players.includes(st => st == player) && startTeam2.players.includes(st => st == player);
+
+  const generateTeam = (currentTeam) => {
+    const lines = optionSelected.split(",");
+    // currentTeam.players.push()
+  }
+
+  const renderField = team => {
+    return (
+      <View style={{ flex: 1 }}>
+        <View style={styles.row}>
+          {getFormation(team, 0).map((number, key) => <Player number={number} key={key} />)}
+        </View>
+        <View style={styles.row}>
+          {getFormation(team, 1).map((number, key) => <Player number={number} key={key} />)}
+        </View>
+        <View style={styles.row}>
+          {getFormation(team, 2).map((number, key) => <Player number={number} key={key} />)}
+        </View>
+        <View style={styles.row}>
+          {getFormation(team, 3).map((number, key) => <Player number={number} key={key} />)}
+        </View>
+      </View>
+    );
+  }
+
+  const renderDinamic = team => {
+    <View>
+      {team.players.map((number, key) => <Player number={number} key={key} />)}
+    </View>
   }
 
   return (
@@ -144,19 +185,15 @@ export default function App() {
       <View style={styles.campo}>
         <View style={styles.information}>
           <Text>Informacion seteada</Text>
+          <Picker
+            selectedValue={optionSelected}
+            style={{ height: 50, width: 150 }}
+            onValueChange={(itemValue, itemIndex) => setOption(itemValue)}
+          >
+            {options.map(op => <Picker.Item label={op.toString()} value={op.toString()} />)}
+          </Picker>
         </View>
-        <View style={styles.row}>
-          {getFormation(0).map((number, key) => <Player number={number} key={key} />)}
-        </View>
-        <View style={styles.row}>
-          {getFormation(1).map((number, key) => <Player number={number} key={key} />)}
-        </View>
-        <View style={styles.row}>
-          {getFormation(2).map((number, key) => <Player number={number} key={key} />)}
-        </View>
-        <View style={styles.row}>
-          {getFormation(3).map((number, key) => <Player number={number} key={key} />)}
-        </View>
+        {optionSelected == "custom" ? renderDinamic(startTeam1) : renderField(startTeam1)}
         <View style={styles.information}>
           <Text>menu inferior</Text>
         </View>
