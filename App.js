@@ -8,7 +8,8 @@ export default function App() {
     [1, 3, 4, 3],
     [1, 5, 3, 2],
     [1, 4, 3, 3],
-    [1, 3, 5, 2]
+    [1, 3, 5, 2],
+    "custom"
   ];
 
   const [ optionSelected, setOption ] = useState(options[0].toString());
@@ -158,25 +159,38 @@ export default function App() {
   const renderField = team => {
     return (
       <View style={{ flex: 1 }}>
-        <View style={styles.row}>
-          {getFormation(team, 0).map((number, key) => <Player number={number} key={key} />)}
-        </View>
-        <View style={styles.row}>
-          {getFormation(team, 1).map((number, key) => <Player number={number} key={key} />)}
-        </View>
-        <View style={styles.row}>
-          {getFormation(team, 2).map((number, key) => <Player number={number} key={key} />)}
-        </View>
-        <View style={styles.row}>
-          {getFormation(team, 3).map((number, key) => <Player number={number} key={key} />)}
-        </View>
+        {getFormation(team, 0).map((number, key) => <Player position={{
+          x: 50,
+          y: 20
+        }} number={number} key={key} />)}
+        {getFormation(team, 1).map((number, key) => <Player position={{
+          x: 100,
+          y: 200
+        }} number={number} key={key} />)}
+        {getFormation(team, 2).map((number, key) => <Player position={{
+          x: 100,
+          y: 400
+        }} number={number} key={key} />)}
+        {getFormation(team, 3).map((number, key) => <Player position={{
+          x: 100,
+          y: 600
+        }} number={number} key={key} />)}
       </View>
     );
   }
 
   const renderDinamic = team => {
-    <View>
-      {team.players.map((number, key) => <Player number={number} key={key} />)}
+    <View style={{
+      flex: 1,
+    }}>
+      <View style={styles.row}>
+        {team.players.map((number, key) => {
+          return <Player position={{
+            x: 100,
+            y: 100
+          }} number={number} key={key} />
+        })}
+      </View>
     </View>
   }
 
@@ -218,7 +232,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   row: {
-    flex: 1,
     borderTopWidth: 2,
     borderTopColor: "grey",
     justifyContent: "center",
