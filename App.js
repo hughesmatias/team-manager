@@ -53,11 +53,6 @@ export default class App extends React.Component {
     return (
       <Container>
         <Header hasTabs>
-          <Left>
-            <Button transparent>
-              <Icon name="menu" />
-            </Button>
-          </Left>
           <Body>
             <Title>Team Manager</Title>
           </Body>

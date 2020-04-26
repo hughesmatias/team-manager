@@ -62,6 +62,7 @@ class Player extends React.Component {
     const {
       number,
       position,
+      color,
     } = this.props;
 
     return (
@@ -73,6 +74,9 @@ class Player extends React.Component {
     <Animated.View
       style={[
         styles.player,
+        {
+          backgroundColor: color,
+        },
         {
           // opacity: this.opacity,
           borderWidth: this.borderWidth,
@@ -101,7 +105,6 @@ const CIRCLE_SIZE = 35;
 const styles = StyleSheet.create({
   player: {
     borderRadius: 999,
-    backgroundColor: "blue",
     width: CIRCLE_SIZE,
     height: CIRCLE_SIZE,
     marginLeft: -(CIRCLE_SIZE / 2),
